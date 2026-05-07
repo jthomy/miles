@@ -22,7 +22,7 @@ class ScriptArgs(U.ExecuteTrainConfig):
     megatron_model_type: str = "qwen3.5-35B-A3B"
     num_gpus_per_node: int = 8
     actor_num_nodes: int = 2
-    rollout_num_gpus: int = 8
+    rollout_num_gpus: int = 32
     num_rollout: int = 4
     model_dir: str = "/root/models"
     megatron_path: str = "/root/Megatron-LM"
@@ -61,7 +61,7 @@ def execute(args: ScriptArgs):
         )
 
     example_dir = os.path.dirname(os.path.abspath(__file__))
-    sglang_config_path = os.path.join(example_dir, "sglang_config_qwen3_5_35b_1p1d.yaml")
+    sglang_config_path = os.path.join(example_dir, "sglang_config_qwen3_5_35B_2p2d.yaml")
     ref_load_path = f"{args.model_dir}/{args.model_name}_torch_dist"
     load_save_path = f"{args.output_dir}/{args.run_id}/checkpoints"
     extra_env = json.loads(args.extra_env_vars or "{}")
@@ -82,11 +82,11 @@ def execute(args: ScriptArgs):
         "--rollout-function-path random_async_rollout.generate_rollout_random_async "
         "--disable-rollout-global-dataset "
         f"--num-rollout {args.num_rollout} "
-        "--rollout-batch-size 32 "
-        "--n-samples-per-prompt 16 "
+        "--rollout-batch-size 8 "
+        "--n-samples-per-prompt 8 "
         f"--rollout-max-response-len {100 if args.mode == 'debug_minimal' else 8192} "
         "--rollout-temperature 1 "
-        "--global-batch-size 512 "
+        "--global-batch-size 64 "
         "--balance-data "
         f"--pause-generation-mode {args.pause_generation_mode} "
     )
