@@ -143,19 +143,28 @@ def execute(args: ScriptArgs):
         sglang_extra = "--sglang-remote-instance-weight-loader-start-seed-via-transfer-engine "
 
     sglang_args = (
-        "--rollout-num-gpus-per-engine 4 "
+        "--rollout-num-gpus-per-engine 8 "
         f"--sglang-config {sglang_config_path} "
         f"--sglang-mem-fraction-static 0.85 {sglang_extra}"
         "--sglang-attention-backend fa3 "
         "--sglang-enable-dp-attention "
-        "--sglang-data-parallel-size 4 "
-        "--sglang-expert-parallel-size 4 "
+        "--sglang-data-parallel-size 8 "
+        "--sglang-expert-parallel-size 8 "
         "--sglang-enable-dp-lm-head "
         "--sglang-moe-a2a-backend deepep "
         "--sglang-context-length 80000 "
         "--sglang-enable-metrics "
-        "--sglang-server-concurrency 384 "
-    )
+        "--sglang-server-concurrency 1024 "
+        "--sglang-moe-dense-tp-size 1 "
+        "--sglang-disaggregation-ib-device mlx5_0,mlx5_1,mlx5_2,mlx5_3,mlx5_4,mlx5_5,mlx5_6,mlx5_7 "
+        "--sglang-page-size 1 "
+        "--sglang-watchdog-timeout 1000000 "
+        # "--sglang-log-level info "
+        # "--sglang-enable-metrics-for-all-schedulers "
+        "--sglang-tokenizer-worker-num 8 "
+        "--disagg-timeout 900 "
+        # "--router-log-level warn "
+        )
 
     misc_args = (
         "--attention-dropout 0.0 "
@@ -167,6 +176,7 @@ def execute(args: ScriptArgs):
         f"--actor-num-gpus-per-node {args.num_gpus_per_node} "
         f"--num-gpus-per-node {args.num_gpus_per_node} "
         f"--rollout-num-gpus {args.rollout_num_gpus} "
+        "--moe-enable-deepep "
     )
 
     train_args = (
