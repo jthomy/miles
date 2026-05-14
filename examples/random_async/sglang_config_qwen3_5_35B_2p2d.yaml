@@ -17,6 +17,8 @@ sglang:
           enable_hierarchical_cache: true
           hicache_size: 125 # you need to halve it because the newer SGLang allocates it twice per GPU: Once for attn, once for linear attn
           context_length: 80000
+          disaggregation_transfer_backend: nixl
+          disaggregation_ib_device: mlx5_0,mlx5_1,mlx5_2,mlx5_3,mlx5_4,mlx5_5,mlx5_6,mlx5_7
 
       - worker_type: decode
         num_gpus: 16
@@ -33,3 +35,5 @@ sglang:
           max_running_requests: 1024
           num_reserved_decode_tokens: 8192
           context_length: 80000
+          disaggregation_transfer_backend: nixl
+          disaggregation_ib_device: mlx5_0,mlx5_1,mlx5_2,mlx5_3,mlx5_4,mlx5_5,mlx5_6,mlx5_7
