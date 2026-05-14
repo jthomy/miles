@@ -159,11 +159,7 @@ def execute(args: ScriptArgs):
         "--sglang-disaggregation-ib-device mlx5_0,mlx5_1,mlx5_2,mlx5_3,mlx5_4,mlx5_5,mlx5_6,mlx5_7 "
         "--sglang-page-size 1 "
         "--sglang-watchdog-timeout 1000000 "
-        # "--sglang-log-level info "
-        # "--sglang-enable-metrics-for-all-schedulers "
         "--sglang-tokenizer-worker-num 8 "
-        "--disagg-timeout 900 "
-        # "--router-log-level warn "
         )
 
     misc_args = (
